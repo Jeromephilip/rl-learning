@@ -111,28 +111,28 @@ class Maze(tk.Tk, object):
 
     def computeReward(self, currstate, action, nextstate):
         '''computeReward - definition of reward function'''
+        reverse=False
+        if nextstate == self.canvas.coords(self.goal):
+            reward = self.reward_goal #1
+            done = True
+            nextstate = 'terminal'
+        #elif nextstate in [self.canvas.coords(self.pit1), self.canvas.coords(self.pit2)]:
+        elif nextstate in [self.canvas.coords(w) for w in self.wallblocks]:
+            reward = self.reward_wall #-0.3
+            done = False
+            nextstate = currstate
+            reverse=True
+            #print("Wall penalty:{}".format(reward))
+        elif nextstate in [self.canvas.coords(w) for w in self.pitblocks]:
+            reward = self.reward_pit #-10
+            done = True
+            nextstate = 'terminal'
             reverse=False
-            if nextstate == self.canvas.coords(self.goal):
-                reward = self.reward_goal #1
-                done = True
-                nextstate = 'terminal'
-            #elif nextstate in [self.canvas.coords(self.pit1), self.canvas.coords(self.pit2)]:
-            elif nextstate in [self.canvas.coords(w) for w in self.wallblocks]:
-                reward = self.reward_wall #-0.3
-                done = False
-                nextstate = currstate
-                reverse=True
-                #print("Wall penalty:{}".format(reward))
-            elif nextstate in [self.canvas.coords(w) for w in self.pitblocks]:
-                reward = self.reward_pit #-10
-                done = True
-                nextstate = 'terminal'
-                reverse=False
-                #print("Wall penalty:{}".format(reward))
-            else:
-                reward = self.reward_walk #-0.1
-                done = False
-            return reward,done, reverse
+            #print("Wall penalty:{}".format(reward))
+        else:
+            reward = self.reward_walk #-0.1
+            done = False
+        return reward,done, reverse
 
     def step(self, action, renderNow=False):
         '''step - definition of one-step dynamics function'''
