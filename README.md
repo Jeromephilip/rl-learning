@@ -13,7 +13,7 @@ Blue squares are **pits** which yield a penalty of -10 and end the episode.
 Black squares are **walls** which cannot be passed through. If the agent tries to walk into a wall they will remain in their current position and receive a penalty of -3. Apart from these, the agent will receive a -1 for reaching any other cell in the grid since the objective is to move to the goal state as quickly as possible.
 There are **three tasks** defined in `run_main.py` which can be commented out to try each. They include a combination of pillars, rooms, pits and obstacles. The aim is to learn a policy that maximizes expected reward and reaches the goal as quickly as possible. You can set the taskNum variable for each task to change which one is beined learned.
 
-<img src="task1-s25.png" width="200"/> <img src="task2-s25.png" width="200"/> <img src="task3-s25.png" width="200" />
+<img src="attachments/task1-s25.png" width="200"/> <img src="attachments/task2-s25.png" width="200"/> <img src="attachments/task3-s25.png" width="200" />
 
 ### First Demo Experiment 
 
@@ -106,21 +106,21 @@ So make sure your code runs with the given unmodified `maze_env` code if we impo
 ## Example Results
 
 The plots will look like a random walk at the beginning:
-![Three Algorithms on Task1](exp_T1_ep100_d20250526_t102006_jointplot.png)
+![Three Algorithms on Task1](attachments/exp_T1_ep100_d20250526_t102006_jointplot.png)
 
 
 But after a while, patterns will emerge, and even some approaches that don't seem promising at first, could end up winning in the end.
-![alt text](exp_T1_ep500_20250519_160016_2_10x10_jointplot.png)
+![alt text](attachments/exp_T1_ep500_20250519_160016_2_10x10_jointplot.png)
 
 The three tasks *should* be increasing in difficulty for your algorithms:
-![alt text](exp_T2_ep100_d20250526_t101649_jointplot.png)
-![alt text](exp_T3_ep100_d20250526_t112625_jointplot.png)
+![alt text](attachments/exp_T2_ep100_d20250526_t101649_jointplot.png)
+![alt text](attachments/exp_T3_ep100_d20250526_t112625_jointplot.png)
 
 But after *"a while"* (which varies for every domain/algorithm/hyperparam combination) they should start improving, even on the harder problems.
-![alt text](exp_T3_ep1000_20250519_171219_1_10x10_jointplot.png)
+![alt text](attachments/exp_T3_ep1000_20250519_171219_1_10x10_jointplot.png)
 
 And there might be surprises, for example, sometimes even a "better" algorithm might have trouble with a task. This kind of behaviour could be a bug in your code, or it could be a tricky edge case that penalizes an algorithm for it's assumptions *(I'm actually not sure which of these is true in this plot yet)*.
-![alt text](exp_20250519_170020_2_10x10_jointplot.png)
+![alt text](attachments/exp_20250519_170020_2_10x10_jointplot.png)
 
 
 
