@@ -112,12 +112,11 @@ The plots will look like a random walk at the beginning:
 But after a while, patterns will emerge, and even some approaches that don't seem promising at first, could end up winning in the end.
 ![alt text](attachments/exp_T1_ep500_20250519_160016_2_10x10_jointplot.png)
 
-The three tasks *should* be increasing in difficulty for your algorithms:
+The three tasks *should* be increasing in difficulty for your algorithms (well at least Task 3 should be harder):
 ![alt text](attachments/exp_T2_ep100_d20250526_t101649_jointplot.png)
 ![alt text](attachments/exp_T3_ep100_d20250526_t112625_jointplot.png)
 
 But after *"a while"* (which varies for every domain/algorithm/hyperparam combination) they should start improving, even on the harder problems.
-![alt text](attachments/exp_T3_ep1000_20250519_171219_1_10x10_jointplot.png)
 
 And there might be surprises, for example, sometimes even a "better" algorithm might have trouble with a task. This kind of behaviour could be a bug in your code, or it could be a tricky edge case that penalizes an algorithm for it's assumptions *(I'm actually not sure which of these is true in this plot yet)*.
 ![alt text](attachments/exp_20250519_170020_2_10x10_jointplot.png)
