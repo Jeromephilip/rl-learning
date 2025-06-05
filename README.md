@@ -1,7 +1,7 @@
 # Maze World - Assignment 2 - Part 2 (DRAFT)
 Assignment code for course ECE 457C at the University of Waterloo in Spring 2025.
 
-**Due Date:** *Friday, June 20, 2025 by 11:59pm* submitted as a PDF report submitted to Crowdmark (link will be emailed) and code submitted to the LEARN dropbox for your group.
+**Due Date:** *Friday, June 22, 2025 by 11:59pm* submitted as a PDF report submitted to Crowdmark (link will be emailed) and code submitted to the LEARN dropbox for your group.
 
 **Collaboration:** You can discuss solutions and help to work out the code. But the work of the assignemnt must be done either *alone* or in a group of just *two people*. All code and writing will be cross-checked against each other and against internet databases for cheating. Some components of the solution will be graded automatically, so make sure to adhere to the given API. If you are doing the assignment alone, you still need to join a group on LEARN in order to get a dropbox. If you are working with a partner then you need to sign up for a group on LEARN and Crowdmark to link your submissions.
 
@@ -29,24 +29,24 @@ Clone the mazeworld environment locally and run the code looking at the implemen
 ### Part 1: Theory
 Part 1 of the assignment is a theory question available on LEARN under Assignment 2.
 
-### Part 2: Implement *~Four* Core TD Methods
+### Part 2: Implement Some Core TD Methods
 
 For each of the four algorithms there will be (**8%**) grading component for correct implementation. There are multiple ways to do this, but the approach should be runnable, and not be unnecessarily inefficient or difficult to follow.
 
-**Code: (~10% each)**
+**Code: (~8% each)**
 
 1. Monte-Carlo - Implement the standard Monte-Carlo RL algorithm discussed in class. 
 2. SARSA - Implement SARSA (`RL_brainsample_sarsa.py`) correctly
 3. QLearning - Implement QLearning (`RL_brainsample_qlearning.py`) correctly
 4. Expected SARSA - Implement Expected SARSA (`RL_brainsample_expsarsa.py`) correctly
    - (optional) Double QLearning - Implement Double QLearning (`RL_brainsample_doubqlearning.py`) correctly
-6. TD($\lambda$) - Implement TD learning using eligibility traces (`RL_brainsample_EligTrace.py`).
+5. TD($\lambda$) - Implement TD learning using eligibility traces (`RL_brainsample_EligTrace.py`).
 
 `NOTE:` See the *Code Suggestions* section below for other information about the codebase and ideas for what to change. 
 
 **Report:**
 
-- **Algorithm (5% each):** Definition of algorithm mathematically, design of code additions, discussion of implementation issues and choices.
+- **Algorithm (6% each):** Definition of algorithm mathematically, design of code additions, discussion of implementation issues and choices.
 - **Results Analysis (20% total):** Analysis of results of all the algorithms in terms of performance time, quality, etc. You can start with the plots we have provided, but you can add other analysis. You should look at quality as well as computation time for the training stage and the testing stage.
 
 ## Evaluation
@@ -59,7 +59,7 @@ For each of the four algorithms there will be (**8%**) grading component for cor
 | Q-Learning        |        8%        |             6%              |          comparative                |          |
 | Expected SARSA    |        8%        |             6%              |          comparative                |          |
 | TD($\lambda$) |            8%       |              6%              |          comparative                |          |
-| **Totals**        |     **40%**      |           **30%**           |         **30%**          | **100%** |
+| **Totals**        |     **40%**      |           **30%**           |         **20%**          | **100%** |
 
 
 ### Report Details
