@@ -12,7 +12,6 @@ class rlalgorithm:
 
     def check_state_exist(self, state):
         if state not in self.q_table.index:
-            # Initialize Q-values for all actions in this new state
             self.q_table.loc[state] = [0.0] * len(self.actions)
 
     def choose_action(self, observation, policy=0):

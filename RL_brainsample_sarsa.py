@@ -30,7 +30,7 @@ class rlalgorithm:
         self.check_state_exist(s)
         self.check_state_exist(s_)
 
-        a_ = self.choose_action(s_)  # Next action using epsilon-greedy
+        a_ = self.choose_action(s_)
         q_predict = self.q_table.loc[s, a]
         q_target = r + self.gamma * self.q_table.loc[s_, a_]
         self.delta = abs(q_predict - q_target)
