@@ -1,11 +1,12 @@
 from maze_env import Maze
-# from RL_brainsample_qlearning import rlalgorithm as rlalg1 
-# from RL_brainsample_sarsa import rlalgorithm as rlalg2
+from RL_brainsample_qlearning import rlalgorithm as rlalg1
+from RL_brainsample_sarsa import rlalgorithm as rlalg2
 # from RL_brainsample_PI import rlalgorithm as rlalg3
-# from RL_brainsample_ExpSarsa import rlalgorithm as rlalg4
-# from RL_Brainsample_EligTrace import rlalgorithm as rlalg5
+from RL_brainsample_expsarsa import rlalgorithm as rlalg4
+from RL_Brainsample_EligTrace import rlalgorithm as rlalg5
 # #from RL_Brainsample_VFA_SARSA import rlalgorithm as rlalg6
-from RL_brainsample_wrong import rlalgorithm as rlalg7 
+# from RL_brainsample_wrong import rlalgorithm as rlalg7 
+from RL_brainsample_MC import rlalgorithm as rlalg8
 import numpy as np
 import sys
 import matplotlib
@@ -212,7 +213,7 @@ def update(env, RL, data, episodes=100, window=10, showRender=True, renderEveryN
             # if learn_from_transitions:
             # RL learn from this transition
             # and determine next state and action
-            state, action =  RL.learn(str(state), action, reward, str(state_), **kwargs)
+            state, action = RL.learn(str(state), action, reward, str(state_), done=done, **kwargs)
             state = str(state_)
             if action is None:
                 # If action is None, it means the algorithm does not return an action
@@ -264,8 +265,8 @@ if __name__ == "__main__":
     runalg2=0; # SARSA - comparable to QLearning
     runalg3=0; # (very optional) Exact PolicyIteration or Value Iteration?
     runalg4=0; #Expected SARSA 
-    runalg5=0; # TD(Lambda) 
-    runalg7=1 # Wrong - given to students as a demo
+    runalg5=1; # TD(Lambda) 
+    # runalg7=0 # Wrong - given to students as a demo
     runalg8=0; # Monte Carlo algorithm
 
     runalg1opt=False; # Dev - not working - QLearning with optimistic initiliaziation (nah, 0 is already optimistic
@@ -288,7 +289,8 @@ if __name__ == "__main__":
     RLargs = {
             'learning_rate':0.01, 
             'reward_decay':0.9,
-            'e_greedy':0.1
+            'e_greedy':0.1,
+            'lambda_': 0.9
             }
     RLargsStr = ''
     # for key in RLargs:
@@ -361,15 +363,62 @@ if __name__ == "__main__":
     experiments=[]
        
 
-    #SoWrong Algorithm - given to students as a demo
-    if(runalg7):
-        name7 = "SoWrongAlg on T " + str(usetask)
-        env7 = Maze(agentXY,goalXY,wall_shape, pits, showRender, name7)
-        RL7 = rlalg7(actions=list(range(env7.n_actions)), **RLargs)
-        data7={}
-        env7.after(10, update(env7, RL7, data7, **EXPargs))
-        env7.mainloop()
-        experiments.append((name7, env7,RL7, data7))
+    # #SoWrong Algorithm - given to students as a demo
+    # if(runalg7):
+    #     name7 = "SoWrongAlg on T " + str(usetask)
+    #     env7 = Maze(agentXY,goalXY,wall_shape, pits, showRender, name7)
+    #     RL7 = rlalg7(actions=list(range(env7.n_actions)), **RLargs)
+    #     data7={}
+    #     env7.after(10, update(env7, RL7, data7, **EXPargs))
+    #     env7.mainloop()
+    #     experiments.append((name7, env7,RL7, data7))
+    if(runalg1):
+        name1 = "QLearning on T " + str(usetask)
+        env1 = Maze(agentXY, goalXY, wall_shape, pits, showRender, name1)
+        RL1 = rlalg1(actions=list(range(env1.n_actions)), **RLargs)
+        data1 = {}
+        env1.after(10, update(env1, RL1, data1, **EXPargs))
+        env1.mainloop()
+        experiments.append((name1, env1, RL1, data1))
+    if(runalg2):
+        name2 = "SARSA on T " + str(usetask)
+        env2 = Maze(agentXY, goalXY, wall_shape, pits, showRender, name2)
+        RL2 = rlalg2(actions=list(range(env2.n_actions)), **RLargs)
+        data2 = {}
+        env2.after(10, update(env2, RL2, data2, **EXPargs))
+        env2.mainloop()
+        experiments.append((name2, env2, RL2, data2))
+    if(runalg4):
+        name4 = "ExpectedSARSA on T " + str(usetask)
+        env4 = Maze(agentXY, goalXY, wall_shape, pits, showRender, name4)
+        RL4 = rlalg4(actions=list(range(env4.n_actions)), **RLargs)
+        data4 = {}
+        env4.after(10, update(env4, RL4, data4, **EXPargs))
+        env4.mainloop()
+        experiments.append((name4, env4, RL4, data4))
+    if(runalg8):
+        name8 = "MC on T " + str(usetask)
+        env8 = Maze(agentXY, goalXY, wall_shape, pits, showRender, name8)
+        RL8 = rlalg8(actions=list(range(env8.n_actions)), **RLargs)
+        data8 = {}
+        env8.after(10, update(env8, RL8, data8, **EXPargs))
+        env8.mainloop()
+        experiments.append((name8, env8, RL8, data8))
+    if(runalg5):
+        name5 = "TDLambda on T " + str(usetask)
+        env5 = Maze(agentXY, goalXY, wall_shape, pits, showRender, name5)
+        RL5 = rlalg5(actions=list(range(env5.n_actions)), **RLargs)
+        data5 = {}
+        env5.after(10, update(env5, RL5, data5, **EXPargs))
+        env5.mainloop()
+        experiments.append((name5, env5, RL5, data5))
+
+
+
+        
+
+
+    
     
 
     print("All experiments complete")
