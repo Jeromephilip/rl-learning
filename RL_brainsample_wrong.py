@@ -26,7 +26,7 @@ class rlalgorithm:
         debug(2, '   a_rand: {}'.format(a))
         return a
             
-    ''' Implmentation of the "Basic" (and incorrect) RL algorithm
+    ''' Implementation of the "Basic" (and incorrect) RL algorithm
         to demonstrate how you could construct an answer'''
     def learn(self, s, a, r, s_, **kwargs):
         debug(2, 'Learn: s={}\n  a={}\n  r={}\n  s_={}'.format(s,a,r,s_))
