@@ -174,50 +174,63 @@ Loop over episodes:
         s ← s'; a ← a'
 ```
 
-# Analysis
+# Quantitative and Qualitative Analysis
 
 Below there are multiple plots comparing various metrics of the different algorithms.
 
 As required from the assignment description, I have included the following plots:
 
-1. Total reward per episode over time (**Mandatory**)
-2. Episode length per episode over time (**Mandatory**)
-3. Path length per episode over time (Optional)
-4. Pit hits and wall hits count per episode over time (Optional)
-5. Reward variance over time (Optional)
+1. Total reward per episode over time and Episode length per episode over time (**Mandatory**)
+2. Pit hits and wall hits count per episode over time (Optional)
 
 The optional ones are included to give better insight into the algorithms and their performance.
 
+I've also put some comments with qualitative assessment of the performance of each algorithm and suggestions for use cases of each algorithm.
+
 ## 1 - Total reward per episode over time
 
-For each of the 3 tasks I have built a plot comparing the summed reward per episode for each algorithm.
+### QLearning
 
-<TODO: Add plots>
+![qlearning_task_1_rewards_and_lengths](report_attachments/qlearning/T1-d20250620_t171702-LR0.01_gamma0.9_eps0.1.png)
 
-## 2 - Episode length per episode over time
+![qlearning_task_2_rewards_and_lengths](report_attachments/qlearning/T2-d20250620_t171701-LR0.01_gamma0.9_eps0.1.png)
 
-For each of the 3 tasks I have built a plot comparing the episode length per episode for each algorithm.
+![qlearning_task_3_rewards_and_lengths](report_attachments/qlearning/T3-d20250620_t171717-LR0.01_gamma0.9_eps0.1.png)
 
-<TODO: Add plots>
+### SARSA
 
-## 3 - Path length per episode over time
+![sarsa_task_1_rewards_and_lengths](report_attachments/sarsa/T1-d20250620_t172738-LR0.01_gamma0.9_eps0.1.png)
 
-For each of the 3 tasks I have built a plot comparing the path length per episode for each algorithm.
+![sarsa_task_2_rewards_and_lengths](report_attachments/sarsa/T2-d20250620_t172609-LR0.01_gamma0.9_eps0.1.png)
 
-<TODO: Add plots>
+![sarsa_task_3_rewards_and_lengths](report_attachments/sarsa/T3-d20250620_t172624-LR0.01_gamma0.9_eps0.1.png)
 
-## 4 - Pit hits and wall hits count per episode over time
+### Expected SARSA
 
-For each of the 3 tasks I have built a plot comparing the pit hits and wall hits count per episode for each algorithm.
+### TD($\lambda$)
 
-<TODO: Add plots>
+### Monte Carlo
 
-## 5 - Reward variance over time
+## 2 - Pit hits and wall hits count per episode over time
 
-For each of the 3 tasks I have built a plot comparing the reward variance over time for each algorithm.
+### QLearning
 
-<TODO: Add plots>
+![qlearning_task_1_hits](report_attachments/qlearning/T1-d20250620_t171702-LR0.01_gamma0.9_eps0.1_hits.png)
 
-# Qualitative comparisons between algorithms
+![qlearning_task_2_hits](report_attachments/qlearning/T2-d20250620_t171701-LR0.01_gamma0.9_eps0.1_hits.png)
 
-<TODO: finish this section>
+![qlearning_task_3_hits](report_attachments/qlearning/T3-d20250620_t171717-LR0.01_gamma0.9_eps0.1_hits.png)
+
+### SARSA
+
+![sarsa_task_1_hits](report_attachments/sarsa/T1-d20250620_t172738-LR0.01_gamma0.9_eps0.1_hits.png)
+
+![sarsa_task_2_hits](report_attachments/sarsa/T2-d20250620_t172609-LR0.01_gamma0.9_eps0.1_hits.png)
+
+![sarsa_task_3_hits](report_attachments/sarsa/T3-d20250620_t172624-LR0.01_gamma0.9_eps0.1_hits.png)
+
+### Expected SARSA
+
+### TD($\lambda$)
+
+### Monte Carlo
