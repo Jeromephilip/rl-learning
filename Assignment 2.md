@@ -8,7 +8,7 @@ Authors: Jerome Philip, Jonathan Huo
 
 ### Description
 
-Monte Carlo methods estimate the action-value function $Q(s, a)$ by averaging the returns following each first visit to $(s, a)$ in an episode. It does not bootstrap — updates are made after complete episodes using sampled returns. This makes it suitable for episodic tasks where the episode eventually terminates.
+Monte Carlo methods estimate the[text](<Assignment 2.md>) action-value function $Q(s, a)$ by averaging the returns following each first visit to $(s, a)$ in an episode. It does not bootstrap — updates are made after complete episodes using sampled returns. This makes it suitable for episodic tasks where the episode eventually terminates.
 
 ### Mathematical Formulation
 
@@ -273,22 +273,81 @@ The optional ones are included to give better insight into the algorithms and th
 
 I've put some comments with qualitative assessment of the performance of each algorithm and suggestions for use cases of each algorithm below.
 
-## QLearning
+# Qualitative Analysis
 
-WIP
+Based on the visual results from the total reward, episode length, and pit/wall hit graphs, we can assess the strengths and weaknesses of each reinforcement learning algorithm as follows:
 
-## SARSA
+## Q-Learning
 
-WIP
+**Strengths**:
+- Rapid convergence in total rewards and reduced episode lengths across tasks.
+- Learns optimal policy aggressively due to off-policy updates.
+- Fast decrease in pit and wall hits shows efficient hazard avoidance.
+
+**Weaknesses**:
+- Initial instability due to aggressive exploration.
+- Can overshoot safe paths early on.
+
+**Best Use Case**: Suitable for environments where the agent must quickly learn an optimal policy, even at the cost of initial instability.
+
+---
+
+## SARSA (On-Policy TD)
+
+**Strengths**:
+- More stable and conservative learning compared to Q-Learning.
+- Smoother and steadier improvement in rewards and episode lengths.
+- Fewer early pit/wall hits due to alignment with the agent’s behavior policy.
+
+**Weaknesses**:
+- Slower convergence to optimal policy.
+- May settle for suboptimal but safer policies.
+
+**Best Use Case**: When safety is a concern and it’s important to learn based on actual actions taken (e.g., risky navigation).
+
+---
 
 ## Expected SARSA
 
-WIP
+**Strengths**:
+- Lowest variance in rewards and episode lengths across episodes.
+- Updates are smoother due to averaging over expected actions.
+- Consistently low and stable pit/wall hit metrics.
+
+**Weaknesses**:
+- Slightly slower than Q-Learning to reach peak performance.
+- Requires knowledge of the action distribution under the policy.
+
+**Best Use Case**: When stable, low-variance learning is desired, such as in sensitive environments or production systems.
+
+---
 
 ## TD($\lambda$)
 
-WIP
+**Strengths**:
+- Fastest convergence in most tasks due to eligibility traces.
+- Leverages past experiences to speed up updates over multiple states.
+- Episode lengths and rewards improved sharply and early.
+
+**Weaknesses**:
+- Slightly more complex to tune (due to $\lambda$ parameter).
+- Moderate variance early on.
+
+**Best Use Case**: When a balance between Monte Carlo and TD learning is needed, especially in tasks with temporal dependencies.
+
+---
 
 ## Monte Carlo
 
-WIP
+**Strengths**:
+- Does not require a model of the environment.
+- Accurate return estimation over full episodes.
+
+**Weaknesses**:
+- High variance in both rewards and episode length.
+- Slower convergence compared to TD-based methods.
+- Less effective in environments with long episodes or high noise.
+
+**Best Use Case**: Environments with well-defined episodes and when exact returns are important.
+
+
