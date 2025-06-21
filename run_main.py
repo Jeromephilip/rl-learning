@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 import pickle
 import time
 import warnings
-from IPython.display import display
+#from IPython.display import display
 
 DEBUG=1
 def debug(debuglevel, msg, **kwargs):
@@ -25,6 +25,38 @@ def debug(debuglevel, msg, **kwargs):
                 print(msg)
         else:
             print(msg)
+            
+# This is a custom function we added to draw plots for wall hits and pit falls
+def plot_hits(experiments, window=100, save_fig=False, savefileprefix=''):
+    plt.figure(figsize=(12, 6))
+    color_list=['blue','red','green','black','purple', 'orange', 'cyan', 'olive', 'pink']
+
+    # Plot for Wall Hits
+    plt.subplot(121)
+    for i, (name, env, RL, data) in enumerate(experiments):
+        if 'ep_wall_hits' in data:
+            plt.plot(range(len(data['ep_wall_hits'])), data['ep_wall_hits'], c=color_list[i], label=RL.display_name)
+    plt.title("Wall Hits per Episode", fontsize=16)
+    plt.xlabel("Episode", fontsize=16)
+    plt.ylabel("Count", fontsize=16)
+    plt.legend()
+    plt.tick_params(axis='both', which='major', labelsize=14)
+
+    # Plot for Pit Hits
+    plt.subplot(122)
+    for i, (name, env, RL, data) in enumerate(experiments):
+        if 'ep_pit_hits' in data:
+            plt.plot(range(len(data['ep_pit_hits'])), data['ep_pit_hits'], c=color_list[i], label=RL.display_name)
+    plt.title("Pit Hits per Episode", fontsize=16)
+    plt.xlabel("Episode", fontsize=16)
+    plt.ylabel("Count", fontsize=16)
+    plt.legend()
+    plt.tick_params(axis='both', which='major', labelsize=14)
+
+    plt.suptitle(f"Collision Events Analysis", fontsize=20)
+    if save_fig:
+        plt.savefig(savefileprefix + '_hits.png')
+    plt.show()
 
 
 def plot_rewards(experiments, window=100,save_fig=False, savefileprefix='', logPlot=False):
@@ -167,6 +199,8 @@ def update(env, RL, data, episodes=100, window=10, showRender=True, renderEveryN
     data['global_reward']=global_reward
     ep_length = np.zeros(episodes)
     data['ep_length']=ep_length
+    data['ep_wall_hits'] = []
+    data['ep_pit_hits'] = []
     if episodes >= window:
         med_rew_window = np.zeros(episodes-window)
         var_rew_window = np.zeros(episodes)
@@ -176,7 +210,9 @@ def update(env, RL, data, episodes=100, window=10, showRender=True, renderEveryN
     data['med_rew_window'] = med_rew_window
     data['var_rew_window'] = var_rew_window
 
-    for episode in range(episodes):  
+    for episode in range(episodes):
+        ep_wall_hits_counter = 0
+        ep_pit_hits_counter = 0
         t=0
         renderNow = showRender and episode>=1 and (episode % renderEveryNth)==0
 
@@ -205,7 +241,11 @@ def update(env, RL, data, episodes=100, window=10, showRender=True, renderEveryN
                 env.render(sim_speed)
 
             # RL take action and get next state and reward
-            state_, reward, done = env.step(action, renderNow)
+            state_, reward, done, info = env.step(action, renderNow)
+            if info['hit_wall']:
+                ep_wall_hits_counter += 1
+            if info['hit_pit']:
+                ep_pit_hits_counter += 1
             global_reward[episode] += reward
             debug(2,'state(ep:{},t:{})={}'.format(episode, t, state))
             debug(2,'   reward={:.3f} return_t={:.3f} Mean50={:.3f}'.format(reward, global_reward[episode],np.mean(global_reward[-50:])))
@@ -240,6 +280,8 @@ def update(env, RL, data, episodes=100, window=10, showRender=True, renderEveryN
 
         #save data about length of the episode
         ep_length[episode]=t
+        data['ep_wall_hits'].append(ep_wall_hits_counter)
+        data['ep_pit_hits'].append(ep_pit_hits_counter)
 
         if(episode>=window):
             med_rew_window[episode-window] = np.median(global_reward[episode-window:episode])
@@ -255,7 +297,7 @@ def update(env, RL, data, episodes=100, window=10, showRender=True, renderEveryN
 
 if __name__ == "__main__":
     warnings.filterwarnings("ignore", message="The frame\.append method is deprecated.*")
-    sim_speed = 0.1 # .1 .05 .001 change this to adjust speed up rendered run
+    sim_speed = 0.0001 # .1 .05 .001 change this to adjust speed up rendered run
     
     import os
     os.chdir(os.path.dirname(__file__))
@@ -265,9 +307,9 @@ if __name__ == "__main__":
     runalg2=0; # SARSA - comparable to QLearning
     runalg3=0; # (very optional) Exact PolicyIteration or Value Iteration?
     runalg4=0; #Expected SARSA 
-    runalg5=1; # TD(Lambda) 
+    runalg5=0; # TD(Lambda) 
     # runalg7=0 # Wrong - given to students as a demo
-    runalg8=0; # Monte Carlo algorithm
+    runalg8=1; # Monte Carlo algorithm
 
     runalg1opt=False; # Dev - not working - QLearning with optimistic initiliaziation (nah, 0 is already optimistic
 
@@ -414,13 +456,6 @@ if __name__ == "__main__":
         experiments.append((name5, env5, RL5, data5))
 
 
-
-        
-
-
-    
-    
-
     print("All experiments complete")
 
     # print(f"Experiment Setup:\n - episodes:{episodes} VI_sweeps:{VI_sweeps} sim_speed:{sim_speed}") 
@@ -447,17 +482,17 @@ if __name__ == "__main__":
     savedfileexperdescrip = f'{savedfileexp}_T{usetask}_ep{saved_episodes_str}_{timestr}'
     # savedfileexperdescrip = f'{savedfileexp}_{timestr}_{i}_{env.MAZE_H}x{env.MAZE_W}'
 
-    # Not implemented yet
+    if do_plot_rewards:
+        timestr = time.strftime("d%Y%m%d_t%H%M%S")
+        savedfileprefix =f'data/T{usetask}-{timestr}-{RLargsStr}'
+        print(f"Plotting results, see graphs. Saving to {savedfileprefix}.png")
+        plot_rewards(experiments, window, do_save_figure, savedfileprefix)
+        plot_hits(experiments, window, do_save_figure, savedfileprefix)
+
     if(do_save_data):
         for i, (name, env, RL, data) in enumerate(experiments):
             savedfilealgo = RL.display_name
             savedfileprefix =f'{savedfileloc}/{savedfileexperdescrip}_i{i}_{savedfilealgo}'
             saveData(name, env,RL,data, savedfileprefix)
-
-    if(do_plot_rewards):
-        #Simple plot of summed reward for each episode and algorithm, you can make more informative plots
-        savedfileprefix =f'{savedfileloc}/{savedfileexperdescrip}_jointplot'
-        plot_rewards(experiments, window, do_save_figure, savedfileprefix, logPlot=True)
-        plt.show()
         
 

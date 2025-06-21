@@ -112,6 +112,8 @@ class Maze(tk.Tk, object):
     def computeReward(self, currstate, action, nextstate):
         '''computeReward - definition of reward function'''
         reverse=False
+        hit_wall = False
+        hit_pit = False
         if nextstate == self.canvas.coords(self.goal):
             reward = self.reward_goal #1
             done = True
@@ -122,17 +124,19 @@ class Maze(tk.Tk, object):
             done = False
             nextstate = currstate
             reverse=True
+            hit_wall = True
             #print("Wall penalty:{}".format(reward))
         elif nextstate in [self.canvas.coords(w) for w in self.pitblocks]:
             reward = self.reward_pit #-10
             done = True
             nextstate = 'terminal'
             reverse=False
+            hit_pit = True
             #print("Wall penalty:{}".format(reward))
         else:
             reward = self.reward_walk #-0.1
             done = False
-        return reward,done, reverse
+        return reward,done, reverse, {'hit_wall': hit_wall, 'hit_pit': hit_pit}
 
     def step(self, action, renderNow=False):
         '''step - definition of one-step dynamics function'''
@@ -156,12 +160,12 @@ class Maze(tk.Tk, object):
         s_ = self.canvas.coords(self.agent)  # next state
 
         # call the reward function
-        reward, done, reverse = self.computeReward(s, action, s_)
+        reward, done, reverse, info = self.computeReward(s, action, s_)
         if(reverse):
             self.canvas.move(self.agent, -base_action[0], -base_action[1])  # move agent back
             s_ = self.canvas.coords(self.agent)
 
-        return s_, reward, done
+        return s_, reward, done, info
 
     def render(self, sim_speed=.01, renderNow=False):
         if self.showRender:
@@ -176,7 +180,7 @@ def update():
         while True:
             env.render()
             a = 1
-            s, r, done = env.step(a)
+            s, r, done, info = env.step(a)
             if done:
                 break
 
