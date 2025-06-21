@@ -174,7 +174,7 @@ Loop over episodes:
         s ← s'; a ← a'
 ```
 
-# Quantitative and Qualitative Analysis
+# Quantitative Analysis (Graphs)
 
 Below there are multiple plots comparing various metrics of the different algorithms.
 
@@ -184,8 +184,6 @@ As required from the assignment description, I have included the following plots
 2. Pit hits and wall hits count per episode over time (Optional)
 
 The optional ones are included to give better insight into the algorithms and their performance.
-
-I've also put some comments with qualitative assessment of the performance of each algorithm and suggestions for use cases of each algorithm.
 
 ## 1 - Total reward per episode over time
 
@@ -207,9 +205,27 @@ I've also put some comments with qualitative assessment of the performance of ea
 
 ### Expected SARSA
 
+![e_sarsa_task_1_rewards_and_lengths](report_attachments/expected_sarsa/T1-d20250620_t173519-LR0.01_gamma0.9_eps0.1.png)
+
+![e_sarsa_task_2_rewards_and_lengths](report_attachments/expected_sarsa/T2-d20250620_t173511-LR0.01_gamma0.9_eps0.1.png)
+
+![e_sarsa_task_3_rewards_and_lengths](report_attachments/expected_sarsa/T3-d20250620_t173635-LR0.01_gamma0.9_eps0.1.png)
+
 ### TD($\lambda$)
 
+![td_task_1_rewards_and_lengths](report_attachments/td/T1-d20250620_t173859-LR0.01_gamma0.9_eps0.1.png)
+
+![td_task_2_rewards_and_lengths](report_attachments/td/T2-d20250620_t173739-LR0.01_gamma0.9_eps0.1.png)
+
+![td_task_3_rewards_and_lengths](report_attachments/td/T3-d20250620_t174030-LR0.01_gamma0.9_eps0.1.png)
+
 ### Monte Carlo
+
+![mc_task_1_rewards_and_lengths](report_attachments/mc/T1-d20250620_t180145-LR0.01_gamma0.9_eps0.1.png)
+
+![mc_task_2_rewards_and_lengths](report_attachments/mc/T2-d20250620_t174155-LR0.01_gamma0.9_eps0.1.png)
+
+![mc_task_3_rewards_and_lengths](report_attachments/mc/T3-d20250620_t174218-LR0.01_gamma0.9_eps0.1.png)
 
 ## 2 - Pit hits and wall hits count per episode over time
 
@@ -231,6 +247,48 @@ I've also put some comments with qualitative assessment of the performance of ea
 
 ### Expected SARSA
 
+![esarsa_task_1_hits](report_attachments/expected_sarsa/T1-d20250620_t173519-LR0.01_gamma0.9_eps0.1_hits.png)
+
+![esarsa_task_2_hits](report_attachments/expected_sarsa/T2-d20250620_t173511-LR0.01_gamma0.9_eps0.1_hits.png)
+
+![esarsa_task_3_hits](report_attachments/expected_sarsa/T3-d20250620_t173635-LR0.01_gamma0.9_eps0.1_hits.png)
+
 ### TD($\lambda$)
 
+![td_task_1_hits](report_attachments/td/T1-d20250620_t173859-LR0.01_gamma0.9_eps0.1_hits.png)
+
+![td_task_2_hits](report_attachments/td/T2-d20250620_t173739-LR0.01_gamma0.9_eps0.1_hits.png)
+
+![td_task_3_hits](report_attachments/td/T3-d20250620_t174030-LR0.01_gamma0.9_eps0.1_hits.png)
+
 ### Monte Carlo
+
+![mc_task_1_hits](report_attachments/mc/T1-d20250620_t180145-LR0.01_gamma0.9_eps0.1_hits.png)
+
+![mc_task_2_hits](report_attachments/mc/T2-d20250620_t174155-LR0.01_gamma0.9_eps0.1_hits.png)
+
+![mc_task_3_hits](report_attachments/mc/T3-d20250620_t174218-LR0.01_gamma0.9_eps0.1_hits.png)
+
+# Qualitative Analysis
+
+I've put some comments with qualitative assessment of the performance of each algorithm and suggestions for use cases of each algorithm below.
+
+## QLearning
+
+WIP
+
+## SARSA
+
+WIP
+
+## Expected SARSA
+
+WIP
+
+## TD($\lambda$)
+
+WIP
+
+## Monte Carlo
+
+WIP
