@@ -271,9 +271,6 @@ The optional ones are included to give better insight into the algorithms and th
 
 ![mc_task_3_hits](report_attachments/mc/T3-d20250620_t174218-LR0.01_gamma0.9_eps0.1_hits.png)
 
-# Qualitative Analysis
-
-I've put some comments with qualitative assessment of the performance of each algorithm and suggestions for use cases of each algorithm below.
 
 # Qualitative Analysis
 
