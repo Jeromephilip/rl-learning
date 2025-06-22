@@ -2,13 +2,13 @@
 
 Authors: Jerome Philip, Jonathan Huo
 
-# Descriptions of each RL algorithm with math and pseudocode
+# Descriptions of each RL algorithm
 
 ## 1. Monte Carlo (MC)
 
 ### Description
 
-Monte Carlo methods estimate the[text](<Assignment 2.md>) action-value function $Q(s, a)$ by averaging the returns following each first visit to $(s, a)$ in an episode. It does not bootstrap — updates are made after complete episodes using sampled returns. This makes it suitable for episodic tasks where the episode eventually terminates.
+Monte Carlo methods update the action-value function $Q(s, a)$ based on complete episodes. For each state-action pair $(s, a)$, the algorithm waits until the episode finishes, computes the total return $G$ following the first time $(s, a)$ was visited, and uses this return to update $Q(s, a)$. No updates are made during the episode — only after it ends.
 
 ### Mathematical Formulation
 
@@ -41,7 +41,7 @@ Loop over episodes:
 
 ### Description
 
-SARSA (State–Action–Reward–State–Action) is an on-policy algorithm that updates $Q(s, a)$ based on the action actually taken by the policy in the next state. This allows it to incorporate exploration into the learning updates.
+SARSA updates $Q(s, a)$ using the next action actually taken by the agent. After taking action $a$ in state $s$, receiving reward $r$, and transitioning to state $s'$, the algorithm selects the next action $a'$ from $s'$ and uses $Q(s', a')$ in the update. This process is repeated step-by-step throughout the episode.
 
 ### Mathematical Formulation
 
@@ -69,7 +69,8 @@ Loop over episodes:
 
 ### Description
 
-Q-Learning is an off-policy TD control algorithm. It updates $Q(s, a)$ toward the maximum estimated value of the next state, regardless of the policy used to select the next action. This allows learning the optimal policy independently of the agent’s behaviour.
+SARSA updates $Q(s, a)$ using the next action actually taken by the agent. After taking action $a$ in state $s$, receiving reward $r$, and transitioning to state $s'$, the algorithm selects the next action $a'$ from $s'$ and uses $Q(s', a')$ in the update. This process is repeated step-by-step throughout the episode.
+
 
 ### Mathematical Formulation
 
@@ -96,7 +97,8 @@ Loop over episodes:
 
 ### Description
 
-Expected SARSA is a hybrid between SARSA and Q-Learning. Instead of using the sampled action from the next state, it uses the expected value under the current policy. This results in lower variance and more stable learning.
+Expected SARSA updates $Q(s, a)$ using the expected value over all possible next actions under the current policy. After observing state $s'$ and the reward $r$, the algorithm computes the weighted average of $Q(s', a')$ for all $a'$ using the policy's action probabilities, and uses this expected value in the update.
+
 
 ### Mathematical Formulation
 
@@ -127,7 +129,7 @@ Loop over episodes:
 
 ### Description
 
-TD($\lambda$) combines TD learning with a memory of past state-action pairs using eligibility traces. This allows updates to be distributed to recently visited states, creating a bridge between Monte Carlo and TD(0) methods.
+TD($\lambda$) maintains an eligibility trace for each state-action pair, which tracks how recently and frequently it has been visited. At each step, the TD error is computed and used to update all $Q(s, a)$ values in proportion to their eligibility trace. The traces decay over time according to the discount factor $\gamma$ and trace decay rate $\lambda$.
 
 ### Mathematical Formulation
 
@@ -279,75 +281,23 @@ Based on the visual results from the total reward, episode length, and pit/wall 
 
 ## Q-Learning
 
-**Strengths**:
-- Rapid convergence in total rewards and reduced episode lengths across tasks.
-- Learns optimal policy aggressively due to off-policy updates.
-- Fast decrease in pit and wall hits shows efficient hazard avoidance.
-
-**Weaknesses**:
-- Initial instability due to aggressive exploration.
-- Can overshoot safe paths early on.
-
-**Best Use Case**: Suitable for environments where the agent must quickly learn an optimal policy, even at the cost of initial instability.
-
----
+Q-Learning showed strong performance across most tasks. It learned optimal policies quickly, with sharp improvements in both total rewards and episode lengths. The agent also reduced pit and wall collisions rapidly, suggesting it learned to avoid hazards efficiently. However, the early stages showed some instability, likely due to its off-policy nature, where it updates using the best possible next action rather than what was actually taken. This sometimes led it to overshoot safer paths while exploring. Overall, Q-Learning was aggressive and efficient once it stabilized, making it a strong performer when fast convergence is the goal.
 
 ## SARSA (On-Policy TD)
 
-**Strengths**:
-- More stable and conservative learning compared to Q-Learning.
-- Smoother and steadier improvement in rewards and episode lengths.
-- Fewer early pit/wall hits due to alignment with the agent’s behavior policy.
-
-**Weaknesses**:
-- Slower convergence to optimal policy.
-- May settle for suboptimal but safer policies.
-
-**Best Use Case**: When safety is a concern and it’s important to learn based on actual actions taken (e.g., risky navigation).
-
----
+Compared to Q-Learning, SARSA had a more stable learning curve. Improvements in total reward and episode length happened more gradually, but consistently. Since it updates using the action actually taken, its behavior matched the agent’s exploration strategy, leading to fewer early mistakes like pit or wall hits. This more cautious learning came at the cost of slower convergence. In some cases, it appeared to settle for safer, possibly suboptimal paths rather than aggressively exploring to find the best one. SARSA is a solid choice when you want a method that’s less prone to instability and aligns better with what the agent actually does.
 
 ## Expected SARSA
 
-**Strengths**:
-- Lowest variance in rewards and episode lengths across episodes.
-- Updates are smoother due to averaging over expected actions.
-- Consistently low and stable pit/wall hit metrics.
-
-**Weaknesses**:
-- Slightly slower than Q-Learning to reach peak performance.
-- Requires knowledge of the action distribution under the policy.
-
-**Best Use Case**: When stable, low-variance learning is desired, such as in sensitive environments or production systems.
-
----
+Expected SARSA stood out for its consistency. It had very low variance in both reward and episode length over time, and its hazard metrics stayed stable and low throughout training. By averaging over all possible next actions, it smoothed out the learning updates and avoided large spikes. Although it didn’t always reach the peak performance of Q-Learning, it was more predictable and steady. This method is especially useful when you want reliable learning with fewer surprises, even if it means sacrificing a bit of speed.
 
 ## TD($\lambda$)
 
-**Strengths**:
-- Fastest convergence in most tasks due to eligibility traces.
-- Leverages past experiences to speed up updates over multiple states.
-- Episode lengths and rewards improved sharply and early.
+TD($\lambda$) performed the best in terms of how quickly it improved both rewards and episode lengths. The use of eligibility traces let it apply updates to many states at once, which helped it generalize faster from recent experience. This led to steep gains early in training. That said, it did show some moderate variance at the start, and tuning the $\lambda$ parameter added an extra layer of complexity. Still, for tasks where past decisions influence current ones — like long paths or sequences — TD($\lambda$) was a strong fit and learned quickly.
 
-**Weaknesses**:
-- Slightly more complex to tune (due to $\lambda$ parameter).
-- Moderate variance early on.
-
-**Best Use Case**: When a balance between Monte Carlo and TD learning is needed, especially in tasks with temporal dependencies.
-
----
 
 ## Monte Carlo
 
-**Strengths**:
-- Does not require a model of the environment.
-- Accurate return estimation over full episodes.
-
-**Weaknesses**:
-- High variance in both rewards and episode length.
-- Slower convergence compared to TD-based methods.
-- Less effective in environments with long episodes or high noise.
-
-**Best Use Case**: Environments with well-defined episodes and when exact returns are important.
+Monte Carlo learning had a very different behavior compared to the TD methods. Since it only updates after full episodes, its learning curve was slower and more variable. We saw higher variance in rewards and episode lengths, especially early on. It also struggled more in tasks with longer episodes or higher noise. But because it updates using the actual return over an entire episode, its estimates were more grounded in full experience. This makes it more suitable when the episodes are well-bounded and you want exact return values, even if the learning is a bit less efficient.
 
 
